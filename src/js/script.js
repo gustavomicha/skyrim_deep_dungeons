@@ -97,70 +97,85 @@ const cardNames = {
     }
 };
 
-document.querySelectorAll('.card-button').forEach(button => {
-    button.addEventListener('click', function() {
-        const folderName = this.getAttribute('data-folder');
-        document.querySelector('.card-button.selected')?.classList.remove('selected'); // Deselect any previously selected button
-        button.classList.add('selected'); // Mark the clicked button as selected
-        loadCardNames(folderName);
-        showCardDisplay(folderName);
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('.card-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const folderName = this.getAttribute('data-folder');
+            document.querySelector('.card-button.selected')?.classList.remove('selected');
+            button.classList.add('selected');
+            loadCardNames(folderName);
+            showCardDisplay(folderName);
+            document.getElementById('main-title').classList.add('hidden'); // Hide title when navigating to card display
+        });
     });
-});
 
-document.getElementById('back-button').addEventListener('click', function() {
-    document.querySelector('.button-container').classList.remove('hidden');
-    document.getElementById('card-display').classList.add('hidden');
-    document.getElementById('back-button').classList.add('hidden');
-    document.getElementById('card-selector').classList.add('hidden');
-    document.getElementById('selected-image').classList.add('hidden');
-});
+    document.getElementById('back-button').addEventListener('click', function() {
+        document.querySelector('.button-container').classList.remove('hidden');
+        document.getElementById('card-display').classList.add('hidden');
+        document.getElementById('back-button').classList.add('hidden');
+        document.getElementById('rotate-button').classList.add('hidden');
+        document.getElementById('card-selector').classList.add('hidden');
+        document.getElementById('selected-image').classList.add('hidden');
+        document.getElementById('selected-image').style.transform = 'rotate(0deg)';
+        document.getElementById('main-title').classList.remove('hidden'); // Show title again when returning to main menu
+    });
 
-document.getElementById('language-button').addEventListener('click', function() {
-    const currentLanguage = this.getAttribute('data-language');
-    const newLanguage = currentLanguage === 'en' ? 'es' : 'en';
-    
-    // Change the language attribute and the flag icon
-    this.setAttribute('data-language', newLanguage);
-    document.getElementById('language-icon').src = newLanguage === 'en' ? 'assets/icons/ENG.png' : 'assets/icons/ESP.png';
+    document.getElementById('language-button').addEventListener('click', function() {
+        const currentLanguage = this.getAttribute('data-language');
+        const newLanguage = currentLanguage === 'en' ? 'es' : 'en';
 
-    // Reload card names based on the new language
-    const selectedButton = document.querySelector('.card-button.selected');
-    if (selectedButton) {
-        const folderName = selectedButton.getAttribute('data-folder');
-        loadCardNames(folderName, newLanguage);
+        this.setAttribute('data-language', newLanguage);
+        document.getElementById('language-icon').src = newLanguage === 'en' ? 'assets/icons/ENG.png' : 'assets/icons/ESP.png';
+
+        const selectedButton = document.querySelector('.card-button.selected');
+        if (selectedButton) {
+            const folderName = selectedButton.getAttribute('data-folder');
+            loadCardNames(folderName, newLanguage);
+        }
+    });
+
+    document.getElementById('rotate-button').addEventListener('click', function() {
+        const image = document.getElementById('selected-image');
+        const currentRotation = image.style.transform.match(/rotate\((\d+)deg\)/);
+        const currentDegree = currentRotation ? parseInt(currentRotation[1]) : 0;
+        const newDegree = currentDegree === 0 ? 90 : 0;
+        image.style.transform = `rotate(${newDegree}deg)`;
+    });
+
+    document.getElementById('help-button').addEventListener('click', function() {
+        window.open("assets/misc/rules_mix.png", "Help", "width=800,height=600");
+    });
+
+    function loadCardNames(folderName, language = 'en') {
+        const cardSelector = document.getElementById('card-selector');
+        cardSelector.innerHTML = '';
+
+        const names = cardNames[language][folderName];
+        names.forEach((name, index) => {
+            const option = document.createElement('option');
+            option.value = index + 1;
+            option.textContent = name;
+            cardSelector.appendChild(option);
+        });
+    }
+
+    function showCardDisplay(folderName) {
+        const cardSelector = document.getElementById('card-selector');
+        const selectedImage = document.getElementById('selected-image');
+
+        selectedImage.src = `assets/cards/${folderName}/0 Card Back.png`;
+
+        cardSelector.addEventListener('change', function() {
+            const selectedValue = this.value;
+            const filename = cardNames['en'][folderName][selectedValue - 1];
+            selectedImage.src = `assets/cards/${folderName}/${selectedValue} - ${filename}.png`;
+        });
+
+        document.querySelector('.button-container').classList.add('hidden');
+        document.getElementById('card-display').classList.remove('hidden');
+        document.getElementById('back-button').classList.remove('hidden');
+        document.getElementById('rotate-button').classList.remove('hidden');
+        cardSelector.classList.remove('hidden');
+        selectedImage.classList.remove('hidden');
     }
 });
-
-function loadCardNames(folderName, language = 'en') {
-    const cardSelector = document.getElementById('card-selector');
-    cardSelector.innerHTML = ''; // Clear previous options
-
-    const names = cardNames[language][folderName];
-    names.forEach((name, index) => {
-        const option = document.createElement('option');
-        option.value = index + 1; // Set value as the index + 1
-        option.textContent = name; // Use the actual card name
-        cardSelector.appendChild(option);
-    });
-}
-
-function showCardDisplay(folderName) {
-    const cardSelector = document.getElementById('card-selector');
-    const selectedImage = document.getElementById('selected-image');
-
-    // Set the default image to the "0 Card Back" of the selected deck
-    selectedImage.src = `assets/cards/${folderName}/0 Card Back.png`;
-
-    cardSelector.addEventListener('change', function() {
-        const selectedValue = this.value;
-        // Always use the English format for the filename
-        const filename = cardNames['en'][folderName][selectedValue - 1];
-        selectedImage.src = `assets/cards/${folderName}/${selectedValue} - ${filename}.png`;
-    });
-
-    document.querySelector('.button-container').classList.add('hidden');
-    document.getElementById('card-display').classList.remove('hidden');
-    document.getElementById('back-button').classList.remove('hidden');
-    cardSelector.classList.remove('hidden');
-    selectedImage.classList.remove('hidden');
-}

@@ -12,7 +12,11 @@
             <img id="language-icon" src="assets/icons/ENG.png" alt="English">
         </button>
     </div>
+    <div class="help-button-container">
+        <button id="help-button">?</button>
+    </div>
     <div class="container">
+        <h1 id="main-title">Deep Dungeons App</h1>
         <div class="button-container">
             <button class="card-button" data-folder="caves">
                 <img src="assets/cards/caves/0%20Card%20Back.png" alt="Caves">
@@ -31,12 +35,12 @@
             </button>
         </div>
         <div id="card-display" class="card-display hidden">
-            <button id="back-button" class="back-button hidden">Back</button>
-            <button id="rotate-button" class="rotate-button hidden">Rotate 90°</button>
-            <select id="card-selector" class="hidden"></select>
             <div id="image-container">
                 <img id="selected-image" src="" alt="Card Image" class="hidden">
             </div>
+            <select id="card-selector" class="hidden"></select>
+            <button id="rotate-button" class="rotate-button hidden">Rotate</button>
+            <button id="back-button" class="back-button hidden">Back</button>
         </div>
     </div>
     <script src="src/js/script.js"></script>
