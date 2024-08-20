@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Dungeons</title>
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="button-container">
+            <button class="card-button" data-folder="caves">
+                <img src="assets/cards/caves/0%20Card%20Back.png" alt="Caves">
+            </button>
+            <button class="card-button" data-folder="dwemer_cities">
+                <img src="assets/cards/dwemer_cities/0%20Card%20Back.png" alt="Dwemer Cities">
+            </button>
+            <button class="card-button" data-folder="mines">
+                <img src="assets/cards/mines/0%20Card%20Back.png" alt="Mines">
+            </button>
+            <button class="card-button" data-folder="ruins">
+                <img src="assets/cards/ruins/0%20Card%20Back.png" alt="Ruins">
+            </button>
+            <button class="card-button" data-folder="tombs">
+                <img src="assets/cards/tombs/0%20Card%20Back.png" alt="Tombs">
+            </button>
+        </div>
+        <div id="card-display" class="card-display hidden"> <!-- Added hidden class -->
+            <button id="back-button" class="back-button hidden">Back</button> <!-- Added hidden class -->
+            <select id="card-selector" class="hidden"></select> <!-- Added hidden class -->
+            <div id="image-container">
+                <img id="selected-image" src="" alt="Card Image" class="hidden"> <!-- Added hidden class -->
+            </div>
+        </div>
+    </div>
+    <script src="src/js/script.js"></script>
+</body>
+</html>
