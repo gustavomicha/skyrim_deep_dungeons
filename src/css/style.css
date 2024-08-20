@@ -65,9 +65,28 @@ body {
 }
 
 #image-container img {
-    width: 300px;
+    width: 600px; /* Increase the width */
     height: auto; /* Maintain aspect ratio */
-    max-height: 400px;
+    max-height: 800px; /* Set a max height */
     object-fit: contain; /* Prevents cropping */
     border: 2px solid #ccc; /* Light gray border */
+}
+
+
+
+.language-switch {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#language-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#language-icon {
+    width: 40px;
+    height: 30px;
 }

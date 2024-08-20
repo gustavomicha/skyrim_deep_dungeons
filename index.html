@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="src/css/style.css">
 </head>
 <body>
+    <div class="language-switch">
+        <button id="language-button" data-language="en">
+            <img id="language-icon" src="assets/icons/ENG.png" alt="English">
+        </button>
+    </div>
     <div class="container">
         <div class="button-container">
             <button class="card-button" data-folder="caves">
@@ -25,11 +30,12 @@
                 <img src="assets/cards/tombs/0%20Card%20Back.png" alt="Tombs">
             </button>
         </div>
-        <div id="card-display" class="card-display hidden"> <!-- Added hidden class -->
-            <button id="back-button" class="back-button hidden">Back</button> <!-- Added hidden class -->
-            <select id="card-selector" class="hidden"></select> <!-- Added hidden class -->
+        <div id="card-display" class="card-display hidden">
+            <button id="back-button" class="back-button hidden">Back</button>
+            <button id="rotate-button" class="rotate-button hidden">Rotate 90°</button>
+            <select id="card-selector" class="hidden"></select>
             <div id="image-container">
-                <img id="selected-image" src="" alt="Card Image" class="hidden"> <!-- Added hidden class -->
+                <img id="selected-image" src="" alt="Card Image" class="hidden">
             </div>
         </div>
     </div>
