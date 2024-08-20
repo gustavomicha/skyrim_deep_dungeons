@@ -6,19 +6,16 @@ body {
     font-family: 'IM Fell English', serif;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start; /* Align to the top */
     margin: 0;
-    overflow: hidden;
+    height: 100vh;
 }
 
 .container {
     text-align: center;
     max-width: 100%;
-    height: 100vh; /* Full viewport height */
-    overflow-y: auto; /* Enable vertical scrolling */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-    padding: 20px 0; /* Add some padding to the top and bottom */
+    overflow-y: auto; /* Allow vertical scrolling */
+    max-height: 100vh; /* Prevent container from exceeding viewport height */
 }
 
 #main-title {
@@ -28,24 +25,24 @@ body {
 }
 
 .button-container {
-    display: block; /* Stack the buttons vertically */
-    width: 100%; /* Full width for the container */
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    justify-content: flex-start; /* Align to the top */
+    align-items: center;
+    gap: 20px;
 }
 
 .card-button {
-    display: block; /* Make each button block-level to stack vertically */
-    width: 100%; /* Make the button take full width */
-    margin-bottom: 20px; /* Add space between the buttons */
     background-color: black;
     border: 2px solid #ccc;
-    padding: 10px;
+    padding: 5px;
     cursor: pointer;
 }
 
 .card-button img {
-    width: 100%; /* Full width of the container */
+    width: 300px;
     height: auto;
-    max-height: 300px; /* Control the max height to keep images reasonable */
+    max-height: 550px;
     object-fit: contain;
 }
 
@@ -57,12 +54,15 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* This centers the content vertically */
     margin-top: 20px;
-    height: 100vh; /* Make the card-display take up the full viewport height */
 }
 
 #image-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 20px;
 }
 
