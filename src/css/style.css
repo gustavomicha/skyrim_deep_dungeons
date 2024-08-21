@@ -147,3 +147,30 @@ body {
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;  /* Firefox */
 }
+
+.language-switch {
+    position: absolute;
+    top: 10px;
+    right: 60px; /* Moved right to accommodate the help button */
+}
+
+.help-button-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+@media (max-width: 768px) {
+    /* Move the buttons to the bottom corners in mobile view */
+    .language-switch {
+        top: auto;  /* Reset top position */
+        bottom: 10px; /* Position at the bottom */
+        right: 10px;  /* Align to the right */
+    }
+
+    .help-button-container {
+        top: auto;   /* Reset top position */
+        bottom: 10px; /* Position at the bottom */
+        left: 10px;   /* Align to the left */
+    }
+}

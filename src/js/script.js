@@ -1,9 +1,9 @@
 const cardNames = {
     'en': {
         'caves': [
-            'Haafingar - Broken Oar Grotto',
+            'Haafingar -  Broken Oar Grotto',
             'The Reach - Rebel\'s Cairn',
-            'Winterhold - Hob\'s Fall Cave',
+            'Winterhold - Hobb\'s Fall Cave',
             'Falkreath - Glenmoril Coven',
             'The Rift - Tolvald\'s Cave',
             'Hjaalmarch - Forbears Holdout',
@@ -148,8 +148,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function loadCardNames(folderName, language = 'en') {
         const cardSelector = document.getElementById('card-selector');
-        cardSelector.innerHTML = '';
-
+        cardSelector.innerHTML = ''; // Clear previous options
+    
+        // Add the empty selection as the first option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Select Dungeon Card';
+        defaultOption.disabled = true; // Disable this option
+        defaultOption.selected = true; // Make it the selected option by default
+        cardSelector.appendChild(defaultOption);
+    
+        // Add the actual card options
         const names = cardNames[language][folderName];
         names.forEach((name, index) => {
             const option = document.createElement('option');
