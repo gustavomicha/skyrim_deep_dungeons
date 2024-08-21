@@ -6,7 +6,7 @@ const cardNames = {
             'Winterhold - Hobb\'s Fall Cave',
             'Falkreath - Glenmoril Coven',
             'The Rift - Tolvald\'s Cave',
-            'Marca de Hjaal - Forbears Holdout',
+            'Hjaalmarch - Forbears Holdout',
             'Witherun Hold - Swindler\'s Den',
             'The Pale - Dimhollow Crypt',
             'Eastmarch - Cragslane Cavern'
@@ -20,7 +20,7 @@ const cardNames = {
         ],
         'mines': [
             'Falkreath - Bilegulch Mine',
-            'Marca de Hjaal - Robber\'s Gorge',
+            'Hjaalmarch - Robber\'s Gorge',
             'Winterhold - Whistling Mine',
             'The Reach (North) - Cidhna Mine',
             'White Hold (East) - Embershard Mine',
@@ -31,7 +31,7 @@ const cardNames = {
         ],
         'ruins': [
             'Whiterun Hold - Mouldering Ruins',
-            'Marca de Hjaal - Labyrinthian',
+            'Hjaalmarch - Labyrinthian',
             'Eastmarch (North) - Ansilvund',
             'Eastmarch (South) - Skuldafn',
             'Falkreath - Shriekwind Bastion'
@@ -39,7 +39,7 @@ const cardNames = {
         'tombs': [
             'Falkreath - Bleak Falls Barrow',
             'Winterhold - Saarthal',
-            'Marca de Hjaal - Ustengrav',
+            'Hjaalmarch - Ustengrav',
             'The Reach - Deepwood Vale',
             'Haafingar - Kilkreath Ruins',
             'The Pale - Volunruud',
