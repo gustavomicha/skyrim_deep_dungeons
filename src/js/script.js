@@ -138,7 +138,34 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
     
-    
+    document.getElementById('help-button').addEventListener('click', function() {
+        // Create the content for the help menu
+        const helpContent = `
+        <div style="text-align: center; padding: 20px;">
+            <img src="assets/misc/rules_mix.png" alt="Help Image" style="max-width: 80%; height: auto;">
+            <ul style="margin-top: 20px; list-style-type: disc; padding-left: 40px; text-align: left;">
+                <li>Deep Dungeons is a fanmade expansion for "The Elder Scrolls V: Skyrim – The Adventure Game" by user Joe J. (@GKANG)</li>
+                <li><a href="https://boardgamegeek.com/thread/3023877/deep-dungeons-an-unofficial-expansion-v111-release" target="_blank">Link to BGG post here</a></li>
+                <li>Webapp by @Relhit</li>
+            </ul>
+        </div>
+        `;
+        
+        // Open the help content in a new window and include the main stylesheet
+        const helpWindow = window.open("", "Help", "width=800,height=600");
+        helpWindow.document.write(`
+            <html lang="en">
+            <head>
+                <title>Help - Deep Dungeons</title>
+                <link rel="stylesheet" href="src/css/style.css"> <!-- Link to your main CSS file -->
+            </head>
+            <body>
+                ${helpContent}
+            </body>
+            </html>
+        `);
+        helpWindow.document.close(); // Close the document to finish rendering
+    });
 
     document.getElementById('rotate-button').addEventListener('click', function() {
         const image = document.getElementById('selected-image');
@@ -148,32 +175,36 @@ document.addEventListener("DOMContentLoaded", function() {
         image.style.transform = `rotate(${newDegree}deg)`;
     });
 
-    document.getElementById('help-button').addEventListener('click', function() {
-        window.open("assets/misc/rules_mix.png", "Help", "width=800,height=600");
+    function loadCardNames(folderName) {
+    const cardSelector = document.getElementById('card-selector');
+    const language = document.getElementById('language-button').getAttribute('data-language'); // Get the current language
+    cardSelector.innerHTML = ''; // Clear previous options
+
+    // Add the empty selection as the first option
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = language === 'en' ? 'Select Dungeon Card' : 'Seleccionar Dungeon';
+    defaultOption.disabled = true; // Disable this option
+    defaultOption.selected = true; // Make it the selected option by default
+    cardSelector.appendChild(defaultOption);
+
+    // Add the actual card options (text in selected language)
+    const names = cardNames[language][folderName]; // Get card names in the current language
+    names.forEach((name, index) => {
+        const option = document.createElement('option');
+        option.value = index + 1;
+        option.textContent = name; // Set option text based on the current language
+        cardSelector.appendChild(option);
     });
 
-    function loadCardNames(folderName) {
-        const cardSelector = document.getElementById('card-selector');
-        const language = document.getElementById('language-button').getAttribute('data-language'); // Get the current language
-        cardSelector.innerHTML = ''; // Clear previous options
-    
-        // Add the empty selection as the first option
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.textContent = language === 'en' ? 'Select Dungeon Card' : 'Seleccionar Dungeon';
-        defaultOption.disabled = true; // Disable this option
-        defaultOption.selected = true; // Make it the selected option by default
-        cardSelector.appendChild(defaultOption);
-    
-        // Add the actual card options
-        const names = cardNames[language][folderName]; // Get card names in the current language
-        names.forEach((name, index) => {
-            const option = document.createElement('option');
-            option.value = index + 1;
-            option.textContent = name; // Set option text based on the current language
-            cardSelector.appendChild(option);
-        });
-    }
+    // Set up change event to load English image filenames
+    cardSelector.addEventListener('change', function() {
+        const selectedValue = this.value;
+        const filename = cardNames['en'][folderName][selectedValue - 1]; // Always use English filenames
+        document.getElementById('selected-image').src = `assets/cards/${folderName}/${selectedValue} - ${filename}.png`;
+    });
+}
+
     
 
     function showCardDisplay(folderName) {
