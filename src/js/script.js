@@ -96,6 +96,8 @@ const cardNames = {
         ]
     }
 };
+const languageSwitch = document.querySelector('.language-switch');
+const helpButtonContainer = document.querySelector('.help-button-container');
 
 document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll('.card-button').forEach(button => {
@@ -118,21 +120,25 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('selected-image').classList.add('hidden');
         document.getElementById('selected-image').style.transform = 'rotate(0deg)';
         document.getElementById('main-title').classList.remove('hidden'); // Show title again when returning to main menu
+        languageSwitch.style.display = 'block';
+        helpButtonContainer.style.display = 'block';
     });
 
     document.getElementById('language-button').addEventListener('click', function() {
         const currentLanguage = this.getAttribute('data-language');
         const newLanguage = currentLanguage === 'en' ? 'es' : 'en';
-
+    
         this.setAttribute('data-language', newLanguage);
         document.getElementById('language-icon').src = newLanguage === 'en' ? 'assets/icons/ENG.png' : 'assets/icons/ESP.png';
-
+    
         const selectedButton = document.querySelector('.card-button.selected');
         if (selectedButton) {
             const folderName = selectedButton.getAttribute('data-folder');
-            loadCardNames(folderName, newLanguage);
+            loadCardNames(folderName); // Reload with the new language
         }
     });
+    
+    
 
     document.getElementById('rotate-button').addEventListener('click', function() {
         const image = document.getElementById('selected-image');
@@ -146,40 +152,45 @@ document.addEventListener("DOMContentLoaded", function() {
         window.open("assets/misc/rules_mix.png", "Help", "width=800,height=600");
     });
 
-    function loadCardNames(folderName, language = 'en') {
+    function loadCardNames(folderName) {
         const cardSelector = document.getElementById('card-selector');
+        const language = document.getElementById('language-button').getAttribute('data-language'); // Get the current language
         cardSelector.innerHTML = ''; // Clear previous options
     
         // Add the empty selection as the first option
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
-        defaultOption.textContent = 'Select Dungeon Card';
+        defaultOption.textContent = language === 'en' ? 'Select Dungeon Card' : 'Seleccionar Dungeon';
         defaultOption.disabled = true; // Disable this option
         defaultOption.selected = true; // Make it the selected option by default
         cardSelector.appendChild(defaultOption);
     
         // Add the actual card options
-        const names = cardNames[language][folderName];
+        const names = cardNames[language][folderName]; // Get card names in the current language
         names.forEach((name, index) => {
             const option = document.createElement('option');
             option.value = index + 1;
-            option.textContent = name;
+            option.textContent = name; // Set option text based on the current language
             cardSelector.appendChild(option);
         });
     }
+    
 
     function showCardDisplay(folderName) {
         const cardSelector = document.getElementById('card-selector');
         const selectedImage = document.getElementById('selected-image');
-
+    
+        languageSwitch.style.display = 'none';
+        helpButtonContainer.style.display = 'none';
+    
         selectedImage.src = `assets/cards/${folderName}/0 Card Back.png`;
-
+    
         cardSelector.addEventListener('change', function() {
             const selectedValue = this.value;
-            const filename = cardNames['en'][folderName][selectedValue - 1];
+            const filename = cardNames['en'][folderName][selectedValue - 1]; // Always use English filenames
             selectedImage.src = `assets/cards/${folderName}/${selectedValue} - ${filename}.png`;
         });
-
+    
         document.querySelector('.button-container').classList.add('hidden');
         document.getElementById('card-display').classList.remove('hidden');
         document.getElementById('back-button').classList.remove('hidden');
@@ -187,4 +198,6 @@ document.addEventListener("DOMContentLoaded", function() {
         cardSelector.classList.remove('hidden');
         selectedImage.classList.remove('hidden');
     }
+    
+    
 });
