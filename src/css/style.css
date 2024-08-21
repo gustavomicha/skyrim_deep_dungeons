@@ -1,21 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap');
-
 body {
     background-color: black;
     color: white;
     font-family: 'IM Fell English', serif;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align to the top */
+    align-items: center;
     margin: 0;
     height: 100vh;
+    overflow: hidden; /* Prevent scrolling */
 }
 
 .container {
     text-align: center;
     max-width: 100%;
-    overflow-y: auto; /* Allow vertical scrolling */
-    max-height: 100vh; /* Prevent container from exceeding viewport height */
+    max-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #main-title {
@@ -26,8 +30,7 @@ body {
 
 .button-container {
     display: flex;
-    flex-direction: column; /* Stack buttons vertically */
-    justify-content: flex-start; /* Align to the top */
+    flex-direction: column;
     align-items: center;
     gap: 20px;
 }
@@ -54,7 +57,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
+    justify-content: center;
 }
 
 #image-container {
@@ -67,9 +70,8 @@ body {
 }
 
 #selected-image {
-    width: 600px;
-    height: auto;
-    max-height: 800px;
+    max-width: 50vw; /* 90% of viewport width */
+    max-height: 50vh; /* 70% of viewport height */
     object-fit: contain;
     border: 2px solid #ccc;
     transition: transform 0.3s ease;
@@ -95,7 +97,7 @@ body {
 .language-switch {
     position: absolute;
     top: 10px;
-    right: 60px; /* Moved right to accommodate the help button */
+    right: 60px;
 }
 
 .help-button-container {
@@ -105,7 +107,7 @@ body {
 }
 
 #language-button {
-    background-color: transparent; /* Removed background */
+    background-color: transparent;
     border: none;
     cursor: pointer;
 }
@@ -129,7 +131,6 @@ body {
     line-height: 30px;
 }
 
-
 /* Hide the scrollbar for WebKit-based browsers (Chrome, Safari) */
 .container::-webkit-scrollbar {
     width: 0;
@@ -138,39 +139,35 @@ body {
 
 /* Hide scrollbar for Firefox */
 .container {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 /* Hide scrollbar for Internet Explorer, Edge */
 .container {
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
-}
-
-.language-switch {
-    position: absolute;
-    top: 10px;
-    right: 60px; /* Moved right to accommodate the help button */
-}
-
-.help-button-container {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 @media (max-width: 768px) {
-    /* Move the buttons to the bottom corners in mobile view */
     .language-switch {
-        top: auto;  /* Reset top position */
-        bottom: 10px; /* Position at the bottom */
-        right: 10px;  /* Align to the right */
+        top: auto;
+        bottom: 10px;
+        right: 10px;
     }
 
     .help-button-container {
-        top: auto;   /* Reset top position */
-        bottom: 10px; /* Position at the bottom */
-        left: 10px;   /* Align to the left */
+        top: auto;
+        bottom: 10px;
+        left: 10px;
+    }
+
+
+    #selected-image {
+        max-width: 90vw; /* 90% of viewport width */
+        max-height: 70vh; /* 70% of viewport height */
+        object-fit: contain;
+        border: 2px solid #ccc;
+        transition: transform 0.3s ease;
     }
 }
