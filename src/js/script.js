@@ -6,7 +6,7 @@ const cardNames = {
             'Winterhold - Hobb\'s Fall Cave',
             'Falkreath - Glenmoril Coven',
             'The Rift - Tolvald\'s Cave',
-            'Hjaalmarch - Forbears Holdout',
+            'Marca de Hjaal - Forbears Holdout',
             'Witherun Hold - Swindler\'s Den',
             'The Pale - Dimhollow Crypt',
             'Eastmarch - Cragslane Cavern'
@@ -20,7 +20,7 @@ const cardNames = {
         ],
         'mines': [
             'Falkreath - Bilegulch Mine',
-            'Hjaalmarch - Robber\'s Gorge',
+            'Marca de Hjaal - Robber\'s Gorge',
             'Winterhold - Whistling Mine',
             'The Reach (North) - Cidhna Mine',
             'White Hold (East) - Embershard Mine',
@@ -31,7 +31,7 @@ const cardNames = {
         ],
         'ruins': [
             'Whiterun Hold - Mouldering Ruins',
-            'Hjaalmarch - Labyrinthian',
+            'Marca de Hjaal - Labyrinthian',
             'Eastmarch (North) - Ansilvund',
             'Eastmarch (South) - Skuldafn',
             'Falkreath - Shriekwind Bastion'
@@ -39,7 +39,7 @@ const cardNames = {
         'tombs': [
             'Falkreath - Bleak Falls Barrow',
             'Winterhold - Saarthal',
-            'Hjaalmarch - Ustengrav',
+            'Marca de Hjaal - Ustengrav',
             'The Reach - Deepwood Vale',
             'Haafingar - Kilkreath Ruins',
             'The Pale - Volunruud',
@@ -49,50 +49,50 @@ const cardNames = {
     },
     'es': {
         'caves': [
-            'Haafingar - Gruta del Remero Roto',
-            'La Cuenca - Cairn del Rebelde',
-            'Hibernalia - Cueva de la Caída de Hob',
-            'Falkreath - Coven de Glenmoril',
-            'La Grieta - Cueva de Tolvald',
-            'Hjaalmarch - Refugio de Forbears',
-            'Cuarentena Blanca - Guarida del Estafador',
-            'El Pálido - Cripta de Dimhollow',
-            'Este de Marcha - Caverna Cragslane'
+            'Haafingar',
+            'La Cuenca',
+            'Hibernalia',
+            'Falkreath',
+            'La Grieta',
+            'Marca de Hjaal',
+            'Carrera Blanca',
+            'El Pálido',
+            'Marca Oriental'
         ],
         'dwemer_cities': [
-            'La Cuenca - Bthardamz',
-            'La Grieta - Avanchnzel',
-            'El Pálido (Sur) - Raldbthar',
-            'Este de Marcha - Mzulft',
-            'El Pálido (Norte) - Irkngthand'
+            'La Cuenca',
+            'La Grieta',
+            'El Pálido (Sur)',
+            'Marca Oriental',
+            'El Pálido (Norte)'
         ],
         'mines': [
-            'Falkreath - Mina de Bilegulch',
-            'Hjaalmarch - Garganta del Ladrón',
-            'Hibernalia - Mina de Silbido',
-            'La Cuenca (Norte) - Mina de Cidhna',
-            'Sostener Blanco (Este) - Mina de Embershard',
-            'Haafingar - Mina de Sanuarch',
-            'La Cuenca (Sur) - Mina de Mano Izquierda',
-            'Sostener de la Parada Blanca (Oeste) - Campamento de Corriente Detenida',
-            'El Pálido - Mina de Plata Rápida'
+            'Falkreath',
+            'Marca de Hjaal',
+            'Hibernalia',
+            'La Cuenca (Norte)',
+            'Carrera Blanca (Este)',
+            'Haafingar',
+            'La Cuenca (Sur)',
+            'Carrera Blanca (Oeste)',
+            'El Pálido'
         ],
         'ruins': [
-            'Sostener de la Parada Blanca - Ruinas de Mouldering',
-            'Hjaalmarch - Laberintia',
-            'Este de Marcha (Norte) - Ansilvund',
-            'Este de Marcha (Sur) - Skuldafn',
-            'Falkreath - Bastión de Shriekwind'
+            'Carrera Blanca',
+            'Marca de Hjaal',
+            'Marca Oriental (Norte)',
+            'Marca Oriental (Sur)',
+            'Falkreath '
         ],
         'tombs': [
-            'Falkreath - Tumba de Bleak Falls',
-            'Hibernalia - Saarthal',
-            'Hjaalmarch - Ustengrav',
-            'La Cuenca - Valle de Deepwood',
-            'Haafingar - Ruinas de Kilkreath',
-            'El Pálido - Volunruud',
-            'Sostener de la Parada Blanca - Tumba de Hillgrund',
-            'La Grieta - Forelhost'
+            'Falkreath',
+            'Hibernalia',
+            'Marca de Hjaal',
+            'La Cuenca',
+            'Haafingar',
+            'El Pálido',
+            'Carrera Blanca',
+            'La Grieta'
         ]
     }
 };
@@ -176,34 +176,38 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function loadCardNames(folderName) {
-    const cardSelector = document.getElementById('card-selector');
-    const language = document.getElementById('language-button').getAttribute('data-language'); // Get the current language
-    cardSelector.innerHTML = ''; // Clear previous options
-
-    // Add the empty selection as the first option
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = language === 'en' ? 'Select Dungeon Card' : 'Seleccionar Dungeon';
-    defaultOption.disabled = true; // Disable this option
-    defaultOption.selected = true; // Make it the selected option by default
-    cardSelector.appendChild(defaultOption);
-
-    // Add the actual card options (text in selected language)
-    const names = cardNames[language][folderName]; // Get card names in the current language
-    names.forEach((name, index) => {
-        const option = document.createElement('option');
-        option.value = index + 1;
-        option.textContent = name; // Set option text based on the current language
-        cardSelector.appendChild(option);
-    });
-
-    // Set up change event to load English image filenames
-    cardSelector.addEventListener('change', function() {
-        const selectedValue = this.value;
-        const filename = cardNames['en'][folderName][selectedValue - 1]; // Always use English filenames
-        document.getElementById('selected-image').src = `assets/cards/${folderName}/${selectedValue} - ${filename}.png`;
-    });
-}
+        const cardSelector = document.getElementById('card-selector');
+        const language = document.getElementById('language-button').getAttribute('data-language'); // Get the current language
+        cardSelector.innerHTML = ''; // Clear previous options
+    
+        // Add the empty selection as the first option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = language === 'en' ? 'Select Dungeon Card' : 'Seleccionar Dungeon';
+        defaultOption.disabled = true; // Disable this option
+        defaultOption.selected = true; // Make it the selected option by default
+        cardSelector.appendChild(defaultOption);
+    
+        // Add the actual card options (text in selected language)
+        const names = cardNames[language][folderName]; // Get card names in the current language
+        names.forEach((name, index) => {
+            const option = document.createElement('option');
+            option.value = index + 1;
+    
+            // If language is 'en', remove the part after the "-" for display purposes
+            option.textContent = language === 'en' ? name.split(' - ')[0] : name;
+    
+            cardSelector.appendChild(option);
+        });
+    
+        // Set up change event to load English image filenames
+        cardSelector.addEventListener('change', function() {
+            const selectedValue = this.value;
+            const filename = cardNames['en'][folderName][selectedValue - 1]; // Always use English filenames
+            document.getElementById('selected-image').src = `assets/cards/${folderName}/${selectedValue} - ${filename}.png`;
+        });
+    }
+    
 
     
 
