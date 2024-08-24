@@ -12,7 +12,7 @@ body {
 .main-container {
     text-align: center;
     max-width: 100%;
-    padding: 50px 20px; 
+    padding: 20px 20px; 
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -192,12 +192,8 @@ body {
         align-items: center;
     }
 
-    .main-container,
     .sub-container {
-        width: 100%;
-        padding: 10px;
-        height: 30vh; /* Use full viewport height for mobile as well */
-        justify-content: center; /* Ensure centering on mobile */
+        margin-top: -800px; /* Adjust this value to move the container up */
     }
 
     #selected-image {
