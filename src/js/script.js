@@ -96,8 +96,10 @@ const cardNames = {
         ]
     }
 };
+
 const languageSwitch = document.querySelector('.language-switch');
 const helpButtonContainer = document.querySelector('.help-button-container');
+const checkboxStates = {};
 
 document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll('.card-button').forEach(button => {
@@ -108,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
             loadCardNames(folderName);
             showCardDisplay(folderName);
             document.getElementById('main-title').classList.add('hidden'); // Hide title when navigating to card display
+            document.getElementById('checkboxes-container').classList.add('hidden'); // Hide checkboxes by default
         });
     });
 
@@ -118,6 +121,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('rotate-button').classList.add('hidden');
         document.getElementById('card-selector').classList.add('hidden');
         document.getElementById('selected-image').classList.add('hidden');
+        document.getElementById('checkboxes-container').classList.add('hidden'); // Hide checkboxes
         document.getElementById('selected-image').style.transform = 'rotate(0deg)';
         document.getElementById('main-title').classList.remove('hidden'); // Show title again when returning to main menu
         languageSwitch.style.display = 'block';
@@ -130,42 +134,27 @@ document.addEventListener("DOMContentLoaded", function() {
     
         this.setAttribute('data-language', newLanguage);
         document.getElementById('language-icon').src = newLanguage === 'en' ? 'assets/icons/ENG.png' : 'assets/icons/ESP.png';
-    
+        
+        updateCheckboxLabels(newLanguage);
+
         const selectedButton = document.querySelector('.card-button.selected');
         if (selectedButton) {
             const folderName = selectedButton.getAttribute('data-folder');
             loadCardNames(folderName); // Reload with the new language
         }
     });
-    
-    document.getElementById('help-button').addEventListener('click', function() {
-        // Create the content for the help menu
-        const helpContent = `
-        <div style="text-align: center; padding: 20px;">
-            <img src="assets/misc/rules_mix.png" alt="Help Image" style="max-width: 80%; height: auto;">
-            <ul style="margin-top: 20px; list-style-type: disc; padding-left: 40px; text-align: left;">
-                <li>Deep Dungeons is a fanmade expansion for "The Elder Scrolls V: Skyrim – The Adventure Game" by user Joe J. (@GKANG)</li>
-                <li><a href="https://boardgamegeek.com/thread/3023877/deep-dungeons-an-unofficial-expansion-v111-release" target="_blank">Link to BGG post here</a></li>
-                <li>Webapp by @Relhit</li>
-            </ul>
-        </div>
-        `;
-        
-        // Open the help content in a new window and include the main stylesheet
-        const helpWindow = window.open("", "Help", "width=800,height=600");
-        helpWindow.document.write(`
-            <html lang="en">
-            <head>
-                <title>Help - Deep Dungeons</title>
-                <link rel="stylesheet" href="src/css/style.css"> <!-- Link to your main CSS file -->
-            </head>
-            <body>
-                ${helpContent}
-            </body>
-            </html>
-        `);
-        helpWindow.document.close(); // Close the document to finish rendering
-    });
+
+    function updateCheckboxLabels(language) {
+        if (language === 'es') {
+            document.getElementById('checkbox-1').nextSibling.textContent = 'Camino 1';
+            document.getElementById('checkbox-2').nextSibling.textContent = 'Camino 2';
+            document.getElementById('checkbox-3').nextSibling.textContent = 'Camino 3';
+        } else {
+            document.getElementById('checkbox-1').nextSibling.textContent = 'Path 1';
+            document.getElementById('checkbox-2').nextSibling.textContent = 'Path 2';
+            document.getElementById('checkbox-3').nextSibling.textContent = 'Path 3';
+        }
+    }
 
     document.getElementById('rotate-button').addEventListener('click', function() {
         const image = document.getElementById('selected-image');
@@ -193,23 +182,31 @@ document.addEventListener("DOMContentLoaded", function() {
         names.forEach((name, index) => {
             const option = document.createElement('option');
             option.value = index + 1;
-    
-            // If language is 'en', remove the part after the "-" for display purposes
             option.textContent = language === 'en' ? name.split(' - ')[0] : name;
-    
             cardSelector.appendChild(option);
         });
     
-        // Set up change event to load English image filenames
+        // Set up change event to load English image filenames and show checkboxes only for selected cards
         cardSelector.addEventListener('change', function() {
             const selectedValue = this.value;
             const filename = cardNames['en'][folderName][selectedValue - 1]; // Always use English filenames
             document.getElementById('selected-image').src = `assets/cards/${folderName}/${selectedValue} - ${filename}.png`;
+
+            if (selectedValue) {
+                // Load checkbox states
+                const checkboxState = checkboxStates[`${folderName}-${selectedValue}`] || [false, false, false];
+                document.getElementById('checkbox-1').checked = checkboxState[0];
+                document.getElementById('checkbox-2').checked = checkboxState[1];
+                document.getElementById('checkbox-3').checked = checkboxState[2];
+                
+                // Display checkboxes only if a specific card is selected (not the default card back)
+                document.getElementById('checkboxes-container').classList.remove('hidden');
+            } else {
+                // Hide checkboxes if no specific card is selected
+                document.getElementById('checkboxes-container').classList.add('hidden');
+            }
         });
     }
-    
-
-    
 
     function showCardDisplay(folderName) {
         const cardSelector = document.getElementById('card-selector');
@@ -220,19 +217,43 @@ document.addEventListener("DOMContentLoaded", function() {
     
         selectedImage.src = `assets/cards/${folderName}/0 Card Back.png`;
     
-        cardSelector.addEventListener('change', function() {
-            const selectedValue = this.value;
-            const filename = cardNames['en'][folderName][selectedValue - 1]; // Always use English filenames
-            selectedImage.src = `assets/cards/${folderName}/${selectedValue} - ${filename}.png`;
-        });
-    
         document.querySelector('.button-container').classList.add('hidden');
         document.getElementById('card-display').classList.remove('hidden');
         document.getElementById('back-button').classList.remove('hidden');
         document.getElementById('rotate-button').classList.remove('hidden');
         cardSelector.classList.remove('hidden');
         selectedImage.classList.remove('hidden');
+        document.getElementById('checkboxes-container').classList.add('hidden'); // Hide checkboxes by default
     }
+
+    // Event listeners for checkboxes to save their states
+    document.getElementById('checkbox-1').addEventListener('change', function() {
+        const selectedValue = document.getElementById('card-selector').value;
+        const folderName = document.querySelector('.card-button.selected').getAttribute('data-folder');
+        checkboxStates[`${folderName}-${selectedValue}`] = [
+            this.checked,
+            document.getElementById('checkbox-2').checked,
+            document.getElementById('checkbox-3').checked
+        ];
+    });
     
+    document.getElementById('checkbox-2').addEventListener('change', function() {
+        const selectedValue = document.getElementById('card-selector').value;
+        const folderName = document.querySelector('.card-button.selected').getAttribute('data-folder');
+        checkboxStates[`${folderName}-${selectedValue}`] = [
+            document.getElementById('checkbox-1').checked,
+            this.checked,
+            document.getElementById('checkbox-3').checked
+        ];
+    });
     
+    document.getElementById('checkbox-3').addEventListener('change', function() {
+        const selectedValue = document.getElementById('card-selector').value;
+        const folderName = document.querySelector('.card-button.selected').getAttribute('data-folder');
+        checkboxStates[`${folderName}-${selectedValue}`] = [
+            document.getElementById('checkbox-1').checked,
+            document.getElementById('checkbox-2').checked,
+            this.checked
+        ];
+    });
 });

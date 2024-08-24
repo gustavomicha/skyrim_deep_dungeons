@@ -62,7 +62,7 @@ body {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .card-display {
@@ -174,6 +174,17 @@ body {
     scrollbar-width: none;
 }
 
+#checkboxes-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#checkboxes-container label {
+    color: white;
+}
+
 @media (max-width: 768px) {
     body {
         flex-direction: column;
@@ -185,6 +196,8 @@ body {
     .sub-container {
         width: 100%;
         padding: 10px;
+        height: 30vh; /* Use full viewport height for mobile as well */
+        justify-content: center; /* Ensure centering on mobile */
     }
 
     #selected-image {
